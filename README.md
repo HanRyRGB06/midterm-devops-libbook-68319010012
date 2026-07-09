@@ -1,8 +1,8 @@
 # 📚 ระบบบันทึกข้อมูลหนังสือห้องสมุด (libbook) - Midterm Project
 
 [![GitHub Actions CI](https://img.shields.io/github/actions/workflow/status/HanRyRGB06/midterm-devops-libbook-68319010012/ci.yml?branch=main&style=flat-square&logo=github&label=CI%20Pipeline)](https://github.com/HanRyRGB06/midterm-devops-libbook-68319010012/actions)
-[![Docker Hub Backend](https://img.shields.io/docker/v/henryrgb012/libbook-backend?sort=semver&style=flat-square&logo=docker&label=Backend%20Image)](https://hub.docker.com/r/henryrgb012/libbook-backend)
-[![Docker Hub Frontend](https://img.shields.io/docker/v/henryrgb012/libbook-frontend?sort=semver&style=flat-square&logo=docker&label=Frontend%20Image)](https://hub.docker.com/r/henryrgb012/libbook-frontend)
+[![Docker Hub Backend](https://img.shields.io/docker/v/henryrgb012/libbook-api?sort=semver&style=flat-square&logo=docker&label=Backend%20Image)](https://hub.docker.com/r/henryrgb012/libbook-api)
+[![Docker Hub Frontend](https://img.shields.io/docker/v/henryrgb012/libbook-web?sort=semver&style=flat-square&logo=docker&label=Frontend%20Image)](https://hub.docker.com/r/henryrgb012/libbook-web)
 
 โปรเจกต์นี้เป็นส่วนหนึ่งของคะแนนสอบปฏิบัติกลางภาควิชา DevOps (Midterm Examination) พัฒนาขึ้นด้วยสถาปัตยกรรมแยกส่วนหน้าบ้าน (Frontend) และหลังบ้าน (Backend) รันอยู่บนระบบตู้คอนเทนเนอร์ (Docker) พร้อมติดตั้งระบบตรวจสอบโค้ดอัตโนมัติ (CI Pipeline)
 
