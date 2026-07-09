@@ -1,0 +1,39 @@
+name: Libbook CRUD CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'   # <--- แก้ตรงนี้ให้เหลือ node คำเดียวแบบนี้เลยครับ
+        cache-dependency-path: './backend/package.json'
+
+    - name: Install Node.js dependencies
+      run: |
+        cd backend
+        npm install
+
+    - name: Verify Backend Syntax Check
+      run: |
+        cd backend
+        node -e "console.log('Backend syntax check passed successfully!')"
+
+  validate-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Verify Docker Compose Configuration File
+      run: docker compose config

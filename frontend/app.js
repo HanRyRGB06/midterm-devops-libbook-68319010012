@@ -1,5 +1,6 @@
 // URL ของหลังบ้าน (Backend API) ที่เราจะสั่งงาน
 const API_URL = 'http://localhost:5000/api/books';
+let editingBookId = null;
 
 // ฟังก์ชัน: โหลดข้อมูลหนังสือทั้งหมดจาก API มาวาดเป็นตาราง
 async function fetchBooks() {
@@ -31,6 +32,7 @@ async function fetchBooks() {
                     <td>${book.year}</td>
                     <td>${statusBadge}</td>
                     <td>
+                        <button class="btn-edit" onclick="editBook(${book.id})">✏️ แก้ไข</button>
                         <button class="btn-delete" onclick="deleteBook(${book.id})">🗑️ ลบ</button>
                     </td>
                 </tr>
@@ -41,7 +43,7 @@ async function fetchBooks() {
     }
 }
 
-// ฟังก์ชัน: รับค่าจากฟอร์ม แล้วส่งไปบันทึกที่หลังบ้าน (POST)
+// ฟังก์ชัน: รับค่าจากฟอร์ม แล้วส่งไปบันทึกหรือแก้ไขที่หลังบ้าน (POST / PUT)
 async function saveBook() {
     const isbn = document.getElementById('isbn').value.trim();
     const title = document.getElementById('title').value.trim();
@@ -56,7 +58,7 @@ async function saveBook() {
         return;
     }
 
-    const newBook = {
+    const bookData = {
         isbn,
         title,
         author,
@@ -65,16 +67,19 @@ async function saveBook() {
         status
     };
 
+    const url = editingBookId ? `${API_URL}/${editingBookId}` : API_URL;
+    const method = editingBookId ? 'PUT' : 'POST';
+
     try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
+        const response = await fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newBook)
+            body: JSON.stringify(bookData)
         });
 
         if (response.ok) {
-            alert('🎉 บันทึกข้อมูลหนังสือเรียบร้อย!');
-            clearForm();
+            alert(editingBookId ? '🎉 อัปเดตข้อมูลหนังสือเรียบร้อย!' : '🎉 บันทึกข้อมูลหนังสือเรียบร้อย!');
+            cancelEdit(); // เคลียร์ฟอร์มและรีเซ็ตสถานะแก้ไข
             fetchBooks(); // โหลดข้อมูลใหม่มาแสดงในตารางทันที
         } else {
             alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
@@ -82,6 +87,46 @@ async function saveBook() {
     } catch (error) {
         console.error('Error:', error);
     }
+}
+
+// ฟังก์ชัน: โหลดข้อมูลหนังสือเล่มที่ต้องการแก้ไขมาใส่ในฟอร์ม
+async function editBook(id) {
+    try {
+        const response = await fetch(`${API_URL}/${id}`);
+        if (!response.ok) {
+            alert('ไม่พบข้อมูลหนังสือเล่มนี้');
+            return;
+        }
+        const book = await response.json();
+
+        // เติมข้อมูลลงในฟอร์ม
+        document.getElementById('isbn').value = book.isbn;
+        document.getElementById('title').value = book.title;
+        document.getElementById('author').value = book.author;
+        document.getElementById('category').value = book.category;
+        document.getElementById('year').value = book.year;
+        document.getElementById('status').value = book.status;
+
+        // เปลี่ยนสถานะและเปลี่ยนหัวข้อแบบนุ่มนวล
+        editingBookId = id;
+        document.getElementById('formTitle').innerText = '✏️ แก้ไขทะเบียนหนังสือ';
+        document.getElementById('submitBtn').innerText = '💾 อัปเดตข้อมูลหนังสือ';
+        document.getElementById('cancelBtn').style.display = 'inline-block';
+
+        // เลื่อนหน้าจอขึ้นไปที่ฟอร์มด้านบนอย่างนุ่มนวล
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+        console.error('Error fetching book detail:', error);
+    }
+}
+
+// ฟังก์ชัน: ยกเลิกโหมดแก้ไขและรีเซ็ตฟอร์ม
+function cancelEdit() {
+    clearForm();
+    editingBookId = null;
+    document.getElementById('formTitle').innerText = '➕ เพิ่มทะเบียนหนังสือใหม่';
+    document.getElementById('submitBtn').innerText = '💾 บันทึกข้อมูลหนังสือ';
+    document.getElementById('cancelBtn').style.display = 'none';
 }
 
 // ฟังก์ชัน: ลบข้อมูลหนังสือด้วย ID (DELETE)
@@ -114,4 +159,6 @@ function clearForm() {
 }
 
 // สั่งให้ทำงานอัตโนมัติทันทีที่หน้าเว็บโหลดเสร็จ
-window.onload = fetchBooks;
+window.onload = function () {
+    fetchBooks();
+};
