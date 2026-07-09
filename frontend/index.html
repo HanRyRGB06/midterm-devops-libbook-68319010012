@@ -130,6 +130,29 @@
         .btn-delete:hover {
             background-color: #c0392b;
         }
+
+        .btn-edit {
+            background-color: #3498db;
+            padding: 6px 12px;
+            font-size: 14px;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .btn-edit:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-cancel {
+            background-color: #95a5a6;
+            padding: 12px;
+            font-size: 16px;
+            width: auto;
+        }
+
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+        }
     </style>
 </head>
 
@@ -143,8 +166,10 @@
             <strong>รหัสนักศึกษา:</strong> 68319010012
         </div>
 
-        <h3>➕ เพิ่มทะเบียนหนังสือใหม่</h3>
+        <h3 id="formTitle">➕ เพิ่มทะเบียนหนังสือใหม่</h3>
         <div class="form-group">
+            <input type="hidden" id="bookId">
+
             <div>
                 <label>เลขทะเบียน / ISBN</label>
                 <input type="text" id="isbn" placeholder="เช่น 978-616-08-1234-5">
@@ -173,8 +198,10 @@
                     <option value="ชำรุด">🔴 ชำรุด</option>
                 </select>
             </div>
-            <div class="full-width">
-                <button onclick="saveBook()">💾 บันทึกข้อมูลหนังสือ</button>
+            <div class="full-width" style="display: flex; gap: 10px;">
+                <button id="submitBtn" onclick="saveBook()">💾 บันทึกข้อมูลหนังสือ</button>
+                <button id="cancelBtn" onclick="cancelEdit()" class="btn-cancel" style="display: none;">❌
+                    ยกเลิกการแก้ไข</button>
             </div>
         </div>
 
