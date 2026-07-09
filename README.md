@@ -42,4 +42,7 @@
 
 1. **โคลนโปรเจกต์ลงมาในเครื่องคอมพิวเตอร์:**
    ```bash
-   git clone https://github.com/HanRyRGB06/midterm-devops-libbook-68319010012.gitcdmidterm-devops-libbook-68319010012
+   git clone https://github.com/HanRyRGB06/midterm-devops-libbook-68319010012.git
+   ```
+2. **cd midterm-devops-libbook-68319010012
+   ```
