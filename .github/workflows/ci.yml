@@ -1,4 +1,4 @@
-name: Libbook CRUD CI Pipeline
+name: CI - libbook
 
 on:
   push:
