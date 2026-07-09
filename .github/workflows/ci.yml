@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '20'   # <--- แก้ตรงนี้ให้เหลือ node คำเดียวแบบนี้เลยครับ
         cache-dependency-path: './backend/package.json'
 
     - name: Install Node.js dependencies
